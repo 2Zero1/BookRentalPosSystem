@@ -1,3 +1,5 @@
+package domain;
+
 public enum Jenre {
-    FANTASY, MARTIAL
+    FANTASY, MARTIAL_ARTS, ROMANCE, SCHOOL
 }
