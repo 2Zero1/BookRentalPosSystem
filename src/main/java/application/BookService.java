@@ -19,13 +19,11 @@ public class BookService {
     }
 
     public List<Book> getAllBooks() {
-        //TODO repository에서 찾아와야 한다.
         List<Book> books = bookRepository.findAll();
         return books;
     }
 
     public List<Book> searchBooksWithName(String bookName) {
-        //TODO repository에서 찾아와야 한다.
         List<Book> books = bookRepository.findByBookName(bookName)
                             .stream().collect(Collectors.toList());
         return books;
