@@ -1,7 +1,9 @@
-package core.book;
+package core.book.application;
 
-import core.cash.BookLedgerRepository;
-import core.cash.BookTransaction;
+import core.book.application.BookTransactionManager;
+import core.book.domain.BookTransaction;
+import core.book.domain.BookTransactionType;
+import core.book.infrastructure.BookLedgerRepository;
 import common.RequestResult;
 
 public class BookLedger {
@@ -14,13 +16,13 @@ public class BookLedger {
         this.bookLedgerRepository = bookLedgerRepository;
     }
 
-    public RequestResult write(BookTransaction transaction) {
+    public void write(int userNum, int bookSerialNum, int cashTransactionNum, BookTransactionType bookTransactionType) {
 
-        if (bookTransactionManager.isAvailable(transaction)) {
-            return RequestResult.Fail("이미 대출 장부에 대출중으로 기록된 서적이다");
+        if (bookTransactionManager.isAvailable(bookSerialNum)) {
+            new BookAlreadyRentException(bookSerialNum);
         }
 
-        return bookLedgerRepository.insertTx(transaction);
+        bookLedgerRepository.insertTx(new BookTransaction(userNum,bookSerialNum,cashTransactionNum,bookTransactionType));
     }
 
 }

@@ -1,61 +1,54 @@
-package core.book;
+package core.book.application;
 
+import core.book.domain.Book;
+import core.book.domain.BookTransaction;
+import core.book.domain.BookTransactionType;
+import core.book.domain.Trader;
+import core.book.infrastructure.BookRepository;
+import core.cash.domain.CashNotEnoughException;
+import core.cash.domain.CashTransaction;
+import core.cash.domain.CashTransactionType;
 import core.user.User;
-import core.cash.CashLedger;
+import core.cash.application.CashLedger;
 import common.RequestResult;
+
+import java.util.Optional;
 
 public class BookManager {
     BookRepository bookRepository;
-    CashLedger cashLedger;
+    Trader trader;
 
-    public BookManager(BookRepository bookRepository, CashLedger cashLedger) {
+    public BookManager(BookRepository bookRepository, Trader trader) {
         this.bookRepository = bookRepository;
-        this.cashLedger = cashLedger;
+        this.trader = trader;
     }
 
-    public RequestResult rent(User user, int bookSerialNum) {
-        Book book = searchBookBySerialNum(bookSerialNum);
-            if (book == null) {
-            return RequestResult.Fail("매장에 존재하지 않다.");
-        }
+    public void rentBySerialNum(User user, int bookSerialNum) {
+
+        Book book = getBookBySerialNum(bookSerialNum);
+
+        trader.trade(user, book);
+
+
+    }
+
+    public Book getBookBySerialNum(int bookSerialNum) {
+        Book book = searchBookBySerialNum(bookSerialNum).orElseThrow(() -> new BookEntityNotFoundException(bookSerialNum));
 
         if (book.isRented()) {
-            return RequestResult.Fail("이미 대출된 서적이다.");
+            new BookAlreadyRentException(bookSerialNum);
         }
-
-        if (!cashLedger.hasEnoughMoney(user, book.getPrice())) {
-            return RequestResult.Fail("잔액이 부족합니다.");
-        }
-
-        //거래를 진행한다.
-
-
-        return RequestResult.Complete();
+        return book;
     }
 
-//    private RequirementChecker checkRequirement(User user, int bookSerialNum) {
-//        Book book = searchBookBySerialNum(bookSerialNum);
-//        if (book == null) {
-//            return RequirementChecker.NonSatisfied("매장에 존재하지 않다.");
-//        }
-//
-//        if (book.isRented()){
-//            return RequirementChecker.NonSatisfied("이미 대출된 서적이다.");
-//        }
-//
-//        return cashManager.hasEnoughMoney(user,book.getPrice());
-//    }
-
-
-    public Book searchBookBySerialNum(int bookSerialNum) {
+    public Optional<Book> searchBookBySerialNum(int bookSerialNum) {
         return bookRepository.findBySerialNum(bookSerialNum);
     }
 
-    public RequestResult registerNewBook(Book book) {
-        if (searchBookBySerialNum(book.getSerialNum()) != null) {
-            return RequestResult.Fail("입력한 시리얼넘버는 이미 사용중입니다.");
-        }
-        return RequestResult.Complete();
+    public void registerNewBook(Book book) {
+        searchBookBySerialNum(book.getSerialNum()).
+                ifPresent(v -> new BookAlreadyExistException(v.getSerialNum()));
+        bookRepository.insertBook(book);
     }
 
 }

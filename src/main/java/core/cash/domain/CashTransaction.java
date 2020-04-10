@@ -1,10 +1,11 @@
-package core.cash;
+package core.cash.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 public class CashTransaction {
@@ -13,20 +14,23 @@ public class CashTransaction {
     int cashTransactionNum;
     int userNum;
     int bookSerialNum;
-    int bookTransactionNum;
     CashTransactionType type;
     Date date;
 
     public CashTransaction() {
     }
 
-    public CashTransaction(int userNum, int bookSerialNum, int bookTransactionNum, CashTransactionType type) {
+    public CashTransaction(int cashTransactionNum) {
+        this.cashTransactionNum = cashTransactionNum;
+    }
+
+    public CashTransaction(int userNum, int bookSerialNum, CashTransactionType type) {
         this.userNum = userNum;
         this.bookSerialNum = bookSerialNum;
-        this.bookTransactionNum = bookTransactionNum;
         this.type = type;
         this.date = new Date();
     }
+
 
     public int getCashTransactionNum() {
         return cashTransactionNum;
@@ -40,10 +44,6 @@ public class CashTransaction {
         return bookSerialNum;
     }
 
-    public int getBookTransactionNum() {
-        return bookTransactionNum;
-    }
-
     public Date getDate() {
         return date;
     }
@@ -52,4 +52,20 @@ public class CashTransaction {
         return type;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if(this==obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        CashTransaction cashTransaction = (CashTransaction) obj;
+        return Objects.equals(this.cashTransactionNum, cashTransaction.getCashTransactionNum());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.getCashTransactionNum());
+    }
 }

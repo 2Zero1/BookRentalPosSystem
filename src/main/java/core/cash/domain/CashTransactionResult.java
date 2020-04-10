@@ -1,4 +1,4 @@
-package core.cash;
+package core.cash.domain;
 
 public class CashTransactionResult {
     boolean result;

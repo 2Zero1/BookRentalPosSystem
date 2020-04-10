@@ -1,6 +1,7 @@
-package core.cash;
+package core.book.infrastructure;
 
 import common.RequestResult;
+import core.book.domain.BookTransaction;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
@@ -37,6 +38,7 @@ public class BookLedgerRepository {
         // now lets pull events from the database and list them
         Session session = sessionFactory.openSession();
         session.beginTransaction();
+        //TODO : hibernate 로 조인쿼리 어떻게 만드는지 공부해야함.
 //        BookTransaction result = (BookTransaction)session.createQuery( "from BookTransaction where bookSerialNum = "+serialNum+" order by date desc "  ).getSingleResult();
         BookTransaction result = (BookTransaction)session.createQuery( "from BookTransaction where bookSerialNum = "+serialNum).getSingleResult();
         session.getTransaction().commit();
@@ -44,13 +46,12 @@ public class BookLedgerRepository {
         return result;
     }
 
-    public RequestResult insertTx(BookTransaction bookTx){
+    public BookTransaction insertTx(BookTransaction bookTx){
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         session.save(bookTx);
         session.getTransaction().commit();
-        System.out.println(bookTx.getBookTransactionNum());
         session.close();
-        return RequestResult.Complete();
+        return bookTx;
     }
 }

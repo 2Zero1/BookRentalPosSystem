@@ -1,6 +1,4 @@
-package core.book;
-
-import core.book.Jenre;
+package core.book.domain;
 
 import javax.persistence.*;
 

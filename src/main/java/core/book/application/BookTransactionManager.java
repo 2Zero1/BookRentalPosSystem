@@ -1,8 +1,8 @@
-package core.book;
+package core.book.application;
 
-import core.cash.BookLedgerRepository;
-import core.cash.BookTransaction;
-import core.cash.TransactionType;
+import core.book.infrastructure.BookLedgerRepository;
+import core.book.domain.BookTransaction;
+import core.book.domain.BookTransactionType;
 
 public class BookTransactionManager {
 
@@ -12,9 +12,9 @@ public class BookTransactionManager {
         this.bookLedgerRepository = bookLedgerRepository;
     }
 
-    public boolean isAvailable(BookTransaction bookTransaction) {
-        BookTransaction latestBookTx = getLatestTxBySerialNum(bookTransaction.getBookSerialNum());
-        return latestBookTx.getTxType() == TransactionType.RENT;
+    public boolean isAvailable(int bookSerialNum) {
+        BookTransaction latestBookTx = getLatestTxBySerialNum(bookSerialNum);
+        return latestBookTx.getTxType() == BookTransactionType.RENT;
     }
 
     private BookTransaction getLatestTxBySerialNum(int serialNum) {

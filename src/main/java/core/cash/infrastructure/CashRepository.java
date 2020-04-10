@@ -1,8 +1,9 @@
-package core.cash;
+package core.cash.infrastructure;
 
+import core.cash.domain.CashTransaction;
 import core.user.User;
 
 public interface CashRepository {
      int getOwnMoney(User user);
-     boolean write(CashTransaction cashTransaction);
+     CashTransaction write(CashTransaction cashTransaction);
 }

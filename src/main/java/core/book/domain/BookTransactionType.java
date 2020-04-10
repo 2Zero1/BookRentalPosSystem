@@ -1,5 +1,5 @@
-package core.cash;
+package core.book.domain;
 
-public enum TransactionType {
+public enum BookTransactionType {
     RENT, RETURN;
 }

@@ -1,9 +1,10 @@
 package core.book.application;
 
-public class BookRegisterException extends BookEntityException {
+public class BookAlreadyExistException extends BookEntityException {
     int bookSerialNum;
 
-    public BookRegisterException(String foramt, Object... args) {
-        super(foramt, args);
+    public BookAlreadyExistException(int bookSerialNum) {
+        super("이미 사용중인 책넘버입니다. (bookSerial: %d", bookSerialNum);
+        this.bookSerialNum = bookSerialNum;
     }
 }

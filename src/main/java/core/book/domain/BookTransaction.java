@@ -1,4 +1,4 @@
-package core.cash;
+package core.book.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,13 +14,13 @@ public class BookTransaction {
     private int bookSerialNum;
     private int userNum;
 //    private Date date;
-    private TransactionType txType;
+    private BookTransactionType txType;
     private int cashTransactionNum;
 
     public BookTransaction() {
     }
 
-    public BookTransaction(int userNum, int bookSerialNum, int cashTransactionNum, TransactionType txType) {
+    public BookTransaction(int userNum, int bookSerialNum, int cashTransactionNum, BookTransactionType txType) {
         this.userNum = userNum;
 //        this.date = new Date();
         this.txType = txType;
@@ -31,30 +31,17 @@ public class BookTransaction {
     @Override
     public boolean equals(Object obj) {
         if(obj == this) return true;
+
+        if (obj == null || getClass() != obj.getClass()) return false;
+
         BookTransaction tx = (BookTransaction) obj;
 
-        if(!super.equals(obj)) {
-            return false;
-        }
-
-        if (tx.getBookSerialNum() != getBookSerialNum()){
-            return false;
-        }
-        if(tx.getBookTransactionNum() != getBookTransactionNum()) {
-            return false;
-        }
-        if(!tx.getTxType().equals(getTxType())) {
-            return false;
-        }
-        if(tx.getUserNum() != getUserNum()) {
-            return false;
-        }
-        return true;
+        return Objects.equals(tx.getBookTransactionNum(),getBookTransactionNum());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(bookTransactionNum, bookSerialNum, userNum, txType, cashTransactionNum);
+        return Objects.hash(bookTransactionNum);
     }
 
     public int getBookSerialNum() {
@@ -70,12 +57,11 @@ public class BookTransaction {
         return userNum;
     }
 
-//    public Date getDate() {
-//        return date;
-//    }
-
-    public TransactionType getTxType() {
+    public BookTransactionType getTxType() {
         return txType;
     }
 
+    public int getCashTransactionNum() {
+        return cashTransactionNum;
+    }
 }

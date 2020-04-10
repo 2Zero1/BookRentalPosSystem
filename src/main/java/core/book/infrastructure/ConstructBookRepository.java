@@ -1,20 +1,20 @@
-package core.book;
+package core.book.infrastructure;
 
-import core.book.Book;
-import core.book.BookRepository;
+import core.book.domain.Book;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import java.util.List;
+import java.util.Optional;
 
 
-public class ConstructBookRepo implements BookRepository {
+public class ConstructBookRepository implements BookRepository {
 
     private SessionFactory sessionFactory;
 
-    public ConstructBookRepo() {
+    public ConstructBookRepository() {
         try {
             setUp();
         } catch (Exception e) {
@@ -59,24 +59,24 @@ public class ConstructBookRepo implements BookRepository {
     }
 
     @Override
-    public boolean insertBook(Book book) {
+    public Book insertBook(Book book) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         session.save(book);
         session.getTransaction().commit();
         session.close();
-        return true;
+        return book;
     }
 
     @Override
-    public Book findBySerialNum(int serialNum) {
+    public Optional<Book> findBySerialNum(int serialNum) {
         // now lets pull events from the database and list them
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         Book result = (Book) session.createQuery( "from Book where serialNum = "+serialNum ).getSingleResult();
         session.getTransaction().commit();
         session.close();
-        return result;
+        return Optional.of(result);
 
     }
 }

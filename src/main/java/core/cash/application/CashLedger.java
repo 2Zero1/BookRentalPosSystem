@@ -1,7 +1,10 @@
-package core.cash;
+package core.cash.application;
 
-import core.cash.CashRepository;
-import core.cash.CashTransaction;
+import core.book.domain.Book;
+import core.cash.domain.CashNotEnoughException;
+import core.cash.domain.CashTransaction;
+import core.cash.domain.CashTransactionType;
+import core.cash.infrastructure.CashRepository;
 import core.user.User;
 
 public class CashLedger {
@@ -18,8 +21,10 @@ public class CashLedger {
         return false;
     }
 
-    public boolean write(CashTransaction cashTransaction) {
-
-        return cashRepository.write(cashTransaction);
+    public CashTransaction write(User user, Book book, CashTransactionType cashTransaction) {
+        if (!hasEnoughMoney(user,book.getPrice())) {
+            new CashNotEnoughException(book.getPrice());
+        }
+        return cashRepository.write(new CashTransaction(user.getUserNum(), book.getSerialNum(), cashTransaction));
     }
 }
