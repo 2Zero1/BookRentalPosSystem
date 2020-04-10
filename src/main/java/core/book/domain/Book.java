@@ -1,14 +1,24 @@
-package domain;
+package core.book;
 
+import core.book.Jenre;
+
+import javax.persistence.*;
+
+@Entity
 public class Book {
-    private long bookID;        //제목이 동일한 책은 BookID가 동일함.
-    private long serialNum;     //각각의 책마다 갖는 identifier
+    private int bookID;        //제목이 동일한 책은 BookID가 동일함.
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int serialNum;     //각각의 책마다 갖는 identifier
     private String name;
     private Jenre jenre;
     private int price;
-    private boolean rented = true;
+    private boolean rented = false;
 
-    public Book(long bookID, long serialNum, String name, Jenre jenre, int price) {
+    public Book() {
+    }
+
+    public Book(int bookID, int serialNum, String name, Jenre jenre, int price) {
         this.bookID = bookID;
         this.serialNum = serialNum;
         this.name = name;
@@ -16,11 +26,11 @@ public class Book {
         this.price = price;
     }
 
-    public long getBookID() {
+    public int getBookID() {
         return bookID;
     }
 
-    public long getSerialNum() {
+    public int getSerialNum() {
         return serialNum;
     }
 
