@@ -1,10 +1,7 @@
 package core.book.application;
 
 
-import common.RequestResult;
 import core.book.domain.Book;
-import core.book.application.BookLedger;
-import core.book.application.BookTransactionManager;
 import core.book.domain.Jenre;
 import core.book.infrastructure.BookLedgerRepository;
 import core.book.domain.BookTransaction;
@@ -16,11 +13,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-class BookLedgerTest {
-    BookLedger bookLedger;
+class BookRentLedgerTest {
+    BookRentLedger bookRentLedger;
     @Mock
     BookTransactionManager bookTransactionManager;
     @Mock
@@ -29,7 +25,7 @@ class BookLedgerTest {
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        bookLedger = new BookLedger(bookTransactionManager, bookLedgerRepository);
+        bookRentLedger = new BookRentLedger(bookTransactionManager, bookLedgerRepository);
     }
 
     @Test
@@ -42,7 +38,7 @@ class BookLedgerTest {
         BookTransactionType bookTransactionType = BookTransactionType.RETURN;
 //        BookTransaction bookTransaction = new BookTransaction(user.getUserNum(),book.getSerialNum(),1, BookTransactionType.RETURN);
 
-        bookLedger.write(user.getUserNum(), book.getSerialNum(), 1, BookTransactionType.RETURN);
+        bookRentLedger.write(user.getUserNum(), book.getSerialNum(), 1, BookTransactionType.RETURN);
 
         verify(bookLedgerRepository).insertTx(new BookTransaction(userNum, bookSerialNum, cashTransactionNum, bookTransactionType));
 

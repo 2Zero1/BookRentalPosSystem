@@ -14,7 +14,7 @@ public class BookTransactionManager {
 
     public boolean isAvailable(int bookSerialNum) {
         BookTransaction latestBookTx = getLatestTxBySerialNum(bookSerialNum);
-        return latestBookTx.getTxType() == BookTransactionType.RENT;
+        return latestBookTx.getTxType() != BookTransactionType.RENT;
     }
 
     private BookTransaction getLatestTxBySerialNum(int serialNum) {

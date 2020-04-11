@@ -1,6 +1,8 @@
-package core.book.application;
+package application;
 
 
+
+import core.book.application.BookRentLedger;
 import core.book.domain.*;
 import core.book.infrastructure.BookRepository;
 import core.cash.application.CashLedger;
@@ -25,7 +27,7 @@ class BookManagerTest {
     @Mock
     CashLedger cashLedger;
     @Mock
-    BookLedger bookLedger;
+    BookRentLedger bookRentLedger;
 
     @Mock
     Trader trader;
@@ -35,7 +37,7 @@ class BookManagerTest {
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        trader = new DefaultTrader(cashLedger, bookLedger);
+        trader = new DefaultTrader(cashLedger, bookRentLedger);
         bookManager = new BookManager(bookRepository, trader);
     }
 

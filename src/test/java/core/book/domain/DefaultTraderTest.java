@@ -1,6 +1,6 @@
 package core.book.domain;
 
-import core.book.application.BookLedger;
+import core.book.application.BookRentLedger;
 import core.cash.application.CashLedger;
 import core.cash.domain.CashTransaction;
 import core.cash.domain.CashTransactionType;
@@ -20,12 +20,12 @@ class DefaultTraderTest {
     CashLedger cashLedger;
 
     @Mock
-    BookLedger bookLedger;
+    BookRentLedger bookRentLedger;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
-        defaultTrader = new DefaultTrader(cashLedger, bookLedger);
+        defaultTrader = new DefaultTrader(cashLedger, bookRentLedger);
     }
 
     @Test
@@ -35,7 +35,7 @@ class DefaultTraderTest {
         CashTransaction cashTransaction = new CashTransaction(1);
         given(cashLedger.write(user,book, CashTransactionType.OUTPUT)).willReturn(cashTransaction);
         defaultTrader.trade(user,book);
-        verify(bookLedger).write(user.getUserNum(),book.getSerialNum(),cashTransaction.getCashTransactionNum(), BookTransactionType.RENT);
+        verify(bookRentLedger).write(user.getUserNum(),book.getSerialNum(),cashTransaction.getCashTransactionNum(), BookTransactionType.RENT);
 
     }
 

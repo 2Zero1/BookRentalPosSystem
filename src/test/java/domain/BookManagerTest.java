@@ -2,7 +2,7 @@
 //
 //import common.RequestResult;
 //import core.book.domain.Book;
-//import core.book.application.BookManager;
+//import application.BookManager;
 //import core.book.infrastructure.BookRepository;
 //import core.book.domain.Jenre;
 //import core.cash.application.CashLedger;

@@ -28,7 +28,7 @@ class BookTransactionManagerTest {
         int bookSerialNum = 1;
         int cashTransactionNum = 1;
 
-        BookTransaction bookTransaction = new BookTransaction(userNum,bookSerialNum,cashTransactionNum, BookTransactionType.RENT);
+        BookTransaction bookTransaction = new BookTransaction(userNum,bookSerialNum,cashTransactionNum, BookTransactionType.RETURN);
         given(bookLedgerRepository.getLatestTxBySerialNum(bookTransaction.getBookSerialNum())).willReturn(bookTransaction);
         assertThat(bookTransactionManager.isAvailable(bookSerialNum)).isEqualTo(true);
     }
