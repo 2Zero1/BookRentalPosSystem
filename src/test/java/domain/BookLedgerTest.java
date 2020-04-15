@@ -8,7 +8,7 @@
 //import core.book.infrastructure.BookLedgerRepository;
 //import core.book.domain.BookTransaction;
 //import core.book.domain.BookTransactionType;
-//import core.user.User;
+//import core.user.domain.User;
 //import org.junit.jupiter.api.BeforeEach;
 //import org.junit.jupiter.api.Test;
 //import org.mockito.Mock;

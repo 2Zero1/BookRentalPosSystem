@@ -1,4 +1,4 @@
-package core.user;
+package core.user.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,5 +30,16 @@ public class User {
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+
+        if (this.getClass() != obj.getClass()) {
+            return false;
+        }
+        User user = (User) obj;
+        return user.getUserNum() == this.getUserNum();
     }
 }

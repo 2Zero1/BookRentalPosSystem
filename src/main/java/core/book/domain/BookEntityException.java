@@ -1,4 +1,4 @@
-package core.book.application;
+package core.book.domain;
 
 import common.SystemException;
 

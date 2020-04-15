@@ -23,6 +23,22 @@ public class Book {
         this.jenre = jenre;
         this.price = price;
     }
+    public Book(int bookID, String name, Jenre jenre, int price) {
+        this.bookID = bookID;
+        this.name = name;
+        this.jenre = jenre;
+        this.price = price;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (this.getClass() != obj.getClass()) {
+            return false;
+        }
+        Book book = (Book)obj;
+        return this.getSerialNum() == book.getSerialNum();
+    }
 
     public int getBookID() {
         return bookID;

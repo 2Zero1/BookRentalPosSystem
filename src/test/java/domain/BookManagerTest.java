@@ -6,7 +6,7 @@
 //import core.book.infrastructure.BookRepository;
 //import core.book.domain.Jenre;
 //import core.cash.application.CashLedger;
-//import core.user.User;
+//import core.user.domain.User;
 //import org.junit.jupiter.api.BeforeEach;
 //import org.junit.jupiter.api.Test;
 //import org.mockito.Mock;

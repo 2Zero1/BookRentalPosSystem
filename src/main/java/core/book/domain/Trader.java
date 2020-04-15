@@ -1,7 +1,9 @@
 package core.book.domain;
 
-import core.user.User;
+import core.user.domain.User;
 
 public interface Trader {
-    void trade(User user, Book book);
+    void rentBook(User user, int bookSerialNum);
+
+    void returnBook(User userNum, int serialNum);
 }

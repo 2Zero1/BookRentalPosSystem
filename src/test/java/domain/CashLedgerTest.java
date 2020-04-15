@@ -4,7 +4,7 @@
 //import core.cash.infrastructure.CashRepository;
 //import core.cash.domain.CashTransaction;
 //import core.cash.domain.CashTransactionType;
-//import core.user.User;
+//import core.user.domain.User;
 //import org.junit.jupiter.api.BeforeEach;
 //import org.junit.jupiter.api.Test;
 //import org.mockito.Mock;

@@ -16,6 +16,7 @@ public class CashTransaction {
     int bookSerialNum;
     CashTransactionType type;
     Date date;
+    int price;
 
     public CashTransaction() {
     }
@@ -24,11 +25,18 @@ public class CashTransaction {
         this.cashTransactionNum = cashTransactionNum;
     }
 
-    public CashTransaction(int userNum, int bookSerialNum, CashTransactionType type) {
+    public CashTransaction(int userNum, int bookSerialNum, int price, CashTransactionType type) {
         this.userNum = userNum;
         this.bookSerialNum = bookSerialNum;
         this.type = type;
         this.date = new Date();
+        this.price = price;
+    }
+    public CashTransaction(int userNum, int price, CashTransactionType type) {
+        this.userNum = userNum;
+        this.type = type;
+        this.date = new Date();
+        this.price = price;
     }
 
 

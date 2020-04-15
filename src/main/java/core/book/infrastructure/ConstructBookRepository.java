@@ -1,6 +1,7 @@
 package core.book.infrastructure;
 
 import core.book.domain.Book;
+import core.user.domain.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
@@ -78,6 +79,26 @@ public class ConstructBookRepository implements BookRepository {
         session.close();
         return Optional.of(result);
 
+    }
+
+    @Override
+    public List<Book> getAllBooks() {
+        return null;
+    }
+
+    @Override
+    public List<Book> getBookByName(String bookName) {
+        return null;
+    }
+
+    @Override
+    public Optional<Book> getBookBySerialNum(int serialNum) {
+        return null;
+    }
+
+    @Override
+    public List<Book> getRentBookByUser(User user) {
+        return null;
     }
 }
 

@@ -1,4 +1,4 @@
-package core.book.application;
+package core.book.domain;
 
 public class BookEntityNotFoundException extends BookEntityException {
     int bookSerialNum;

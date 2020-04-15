@@ -1,4 +1,4 @@
-package core.book.application;
+package core.book.domain;
 
 public class BookAlreadyRentException extends BookEntityException {
     int bookSerialNum;

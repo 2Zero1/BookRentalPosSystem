@@ -1,6 +1,5 @@
 package core.book.infrastructure;
 
-import common.RequestResult;
 import core.book.domain.BookTransaction;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -8,7 +7,9 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
-public class BookLedgerRepository {
+import java.util.Optional;
+
+public class BookLedgerRepository  {
 
     private SessionFactory sessionFactory;
 
@@ -34,7 +35,7 @@ public class BookLedgerRepository {
         }
     }
 
-    public BookTransaction getLatestTxBySerialNum(int serialNum) {
+    public Optional<BookTransaction> getLatestTxBySerialNum(int serialNum) {
         // now lets pull events from the database and list them
         Session session = sessionFactory.openSession();
         session.beginTransaction();
@@ -43,7 +44,7 @@ public class BookLedgerRepository {
         BookTransaction result = (BookTransaction)session.createQuery( "from BookTransaction where bookSerialNum = "+serialNum).getSingleResult();
         session.getTransaction().commit();
         session.close();
-        return result;
+        return Optional.of(result);
     }
 
     public BookTransaction insertTx(BookTransaction bookTx){

@@ -38,7 +38,7 @@
         <mapping class="core.book.domain.Book"/>
         <mapping class="core.book.domain.BookTransaction"/>
         <mapping class="core.cash.domain.CashTransaction"/>
-        <mapping class="core.user.User"/>
+        <mapping class="core.user.domain.User"/>
 
     </session-factory>
 

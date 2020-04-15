@@ -2,16 +2,17 @@ package core.cash.application;
 
 import core.book.domain.Book;
 import core.book.domain.Jenre;
-import core.cash.application.CashLedger;
 import core.cash.infrastructure.CashRepository;
 import core.cash.domain.CashTransaction;
 import core.cash.domain.CashTransactionType;
-import core.user.User;
+import core.user.domain.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 ;
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -47,17 +48,29 @@ class CashLedgerTest {
     }
 
     @Test
-    public void writeInputCashTransaction() {
+    public void writeOutputCashTransaction() {
         int userNum = 1;
         int bookSerialNum = 1;
-        User user = new User(1,"이영한");
         Book book = new Book(1,1,"드래곤라자", Jenre.FANTASY,300);
-//        CashTransaction cashTransaction = new CashTransaction(userNum,bookSerialNum, CashTransactionType.INPUT);
-//        given(cashRepository.write(cashTransaction)).willReturn(true);
-        cashLedger.write(user,book, CashTransactionType.INPUT);
-//        assertThat(cashLedger.write(cashTransaction)).isEqualTo(true);
+
+        cashLedger.writeOutput(new CashTransaction(userNum, bookSerialNum, CashTransactionType.OUTPUT));
 
         verify(cashRepository).write(new CashTransaction(userNum,book.getSerialNum(), CashTransactionType.INPUT));
     }
 
+    @Test
+    public void writeInputCashTransaction() {
+        int userNum = 1;
+        int cash = 10000;
+        cashLedger.writeInput(new CashTransaction(userNum, cash, CashTransactionType.INPUT));
+        verify(cashRepository).write(new CashTransaction(userNum,cash,CashTransactionType.INPUT));
+    }
+
+    @Test
+    public void getUserMoney() {
+        int money = 1000;
+        User user = new User(1,"이영한");
+        given(cashRepository.getOwnMoney(user)).willReturn(money);
+        assertThat(cashLedger.getUserMoney(user)).isEqualTo(money);
+    }
 }
