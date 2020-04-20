@@ -1,6 +1,7 @@
 package core.book.domain;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 public class Book {
@@ -12,6 +13,7 @@ public class Book {
     private Jenre jenre;
     private int price;
     private boolean rented = false;
+    private Date registeredDate;
 
     public Book() {
     }
@@ -68,6 +70,14 @@ public class Book {
         return rented;
     }
 
+    public Date getRegisteredDate() {
+        return registeredDate;
+    }
+
+    public void setRegisteredDate(Date registeredDate) {
+        this.registeredDate = registeredDate;
+    }
+
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
@@ -82,7 +92,7 @@ public class Book {
         stringBuilder.append(", 대여비 : ");
         stringBuilder.append(getPrice());
         stringBuilder.append(", 대여 가능 여부 : ");
-        stringBuilder.append(isRented() == false ? "불가" : "가능");
+        stringBuilder.append(isRented() == false ? "대여중" : "대여가능");
         return stringBuilder.toString();
     }
 }

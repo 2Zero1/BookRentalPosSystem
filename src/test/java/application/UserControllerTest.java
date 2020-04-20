@@ -31,7 +31,6 @@ class UserControllerTest {
                 new User(2, "이영규"));
         given(userManager.getAllUsers()).willReturn(users);
         assertThat(userController.getAllUsers()).isEqualTo(users);
-
     }
 
     @Test

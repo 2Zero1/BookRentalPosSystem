@@ -1,4 +1,4 @@
-package core.book.domain;
+package core.book.domain.exception;
 
 public class BookAlreadyReturnException extends BookEntityException {
     private int bookSerialNum;

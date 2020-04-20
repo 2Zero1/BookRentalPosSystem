@@ -1,7 +1,7 @@
 package core.user.application;
 
 import core.user.domain.User;
-import core.user.domain.UserNotFoundException;
+import core.user.domain.exception.UserNotFoundException;
 import core.user.infrastructure.UserRepository;
 
 import java.util.List;

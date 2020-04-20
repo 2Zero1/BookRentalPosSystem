@@ -1,58 +1,61 @@
 package core.book.application;
 
-import core.book.application.BookRentLedger;
-import core.book.application.Library;
 import core.book.domain.*;
+import core.book.domain.exception.BookAlreadyRentException;
+import core.book.domain.exception.BookAlreadyReturnException;
 import core.cash.application.CashLedger;
+import core.cash.domain.exception.CashNotEnoughException;
 import core.cash.domain.CashTransaction;
 import core.cash.domain.CashTransactionType;
 import core.user.domain.User;
 
 public class DefaultTrader implements Trader {
     CashLedger cashLedger;
-    BookRentLedger bookRentLedger;
+    BookLedger bookLedger;
     Library library;
 
-    public DefaultTrader(CashLedger cashLedger, BookRentLedger bookRentLedger, Library library) {
+    public DefaultTrader(CashLedger cashLedger, BookLedger bookLedger
+            , Library library) {
         this.cashLedger = cashLedger;
-        this.bookRentLedger = bookRentLedger;
+        this.bookLedger = bookLedger;
         this.library = library;
 }
 
     @Override
     public void rentBook(User user, int bookSerialNum) {
-        //사람 돈이 충분히 있는지 확인
-        //책이 존재하는지
         Book book = library.getBookBySerialNum(bookSerialNum);
+
         if (book.isRented()) throw new BookAlreadyRentException(bookSerialNum);
-        //책이 이미 빌려졌는지 확인.
-        bookRentLedger.getLatestBookTransactionBySerial(bookSerialNum).ifPresent(v -> {
-            if (v.getTxType()== BookTransactionType.RENT)
-                throw new BookAlreadyReturnException(bookSerialNum);
-        });
 
-        CashTransaction cashTransaction = cashLedger.writeOutput(new CashTransaction(user.getUserNum(),bookSerialNum,book.getPrice(), CashTransactionType.OUTPUT));
+        if (book.getPrice() > user.getCash()) {
+            throw new CashNotEnoughException(user.getCash(), book.getPrice());
+        }
 
-        bookRentLedger.writeTransaction(new BookTransaction(user.getUserNum(),book.getSerialNum(),cashTransaction.getCashTransactionNum(),BookTransactionType.RENT));
+        CashTransaction cashTransaction = cashLedger.writeOutput(
+                new CashTransaction(
+                        user.getUserNum(),bookSerialNum,book.getPrice()
+                        , CashTransactionType.OUTPUT
+                )
+        );
+
+        bookLedger.writeTransaction(
+                new BookTransaction(user.getUserNum(),book.getSerialNum()
+                        ,cashTransaction.getCashTransactionNum()
+                        ,BookTransactionType.RENT)
+        );
     }
 
     @Override
     public void returnBook(User user, int serialNum) {
-        Book book = library.searchBookBySerialNum(
-                serialNum).orElseThrow(
-                        () -> {
-                            throw new BookEntityNotFoundException(serialNum);
-                        });
 
-        bookRentLedger.getLatestBookTransactionBySerial(serialNum).ifPresent(v -> {
-            if (v.getTxType()== BookTransactionType.RETURN)
-                throw new BookAlreadyReturnException(serialNum);
-        });
+        Book book = library.getBookBySerialNum(serialNum);
 
+        //책이 빌려진 상태인지 확인.
         if (!book.isRented()) {
-            new BookAlreadyReturnException(serialNum);
+            throw new BookAlreadyReturnException(serialNum);
         }
-        bookRentLedger.writeTransaction(new BookTransaction(user.getUserNum(),serialNum,BookTransactionType.RETURN));
+
+        bookLedger.writeTransaction(new BookTransaction(user.getUserNum(),serialNum,BookTransactionType.RETURN));
 
     }
 }

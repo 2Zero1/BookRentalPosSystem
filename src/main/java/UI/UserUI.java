@@ -43,8 +43,6 @@ public class UserUI {
         String name = input.nextLine();
         //유저 찾고
         User user = userManager.getUserByName(name);
-        //유저돈 보여주고
-        cashController.getUserMoney(name);
         //유저 대여중인 책 보여주기
         bookController.getRentBookByUser(user).forEach(System.out::println);
     }

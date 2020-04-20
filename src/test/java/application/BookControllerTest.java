@@ -2,13 +2,10 @@ package application;
 
 
 
-import core.book.application.BookRentLedger;
-import core.book.application.DefaultTrader;
+import core.book.application.BookLedger;
 import core.book.application.Library;
 import core.book.domain.*;
 import core.cash.application.CashLedger;
-import core.cash.domain.CashTransaction;
-import core.cash.domain.CashTransactionType;
 import core.user.domain.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,7 +26,7 @@ class BookControllerTest {
     @Mock
     CashLedger cashLedger;
     @Mock
-    BookRentLedger bookRentLedger;
+    BookLedger bookLedger;
 
     @Mock
     Trader trader;
@@ -47,11 +44,6 @@ class BookControllerTest {
 
         User user = new User("이영한");
         int bookSerialNum = 1;
-        Book book = new Book(1, bookSerialNum, "드래곤라자", Jenre.FANTASY, 400);
-
-//        CashTransaction cashTransaction = new CashTransaction(user.getUserNum(),bookSerialNum,book.getPrice(), CashTransactionType.OUTPUT);
-//        given(cashLedger.writeOutput(cashTransaction)).willReturn(cashTransaction);
-//        given(library.getBookBySerialNum(bookSerialNum)).willReturn(book);
         bookController.rentBySerialNum(user, bookSerialNum);
         verify(trader).rentBook(user, bookSerialNum);
 
@@ -77,7 +69,6 @@ class BookControllerTest {
     @Test
     public void registerNewBook() {
         int serialNum = 1;
-        given(library.searchBookBySerialNum(serialNum)).willReturn(null);
         Book book = new Book(1, serialNum, "바키", Jenre.MARTIAL_ARTS, 400);
 
         bookController.registerNewBook(book);

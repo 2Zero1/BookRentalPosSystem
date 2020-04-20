@@ -1,4 +1,4 @@
-package core.user.domain;
+package core.user.domain.exception;
 
 import common.SystemException;
 

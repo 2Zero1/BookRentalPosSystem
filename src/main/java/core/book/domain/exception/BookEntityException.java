@@ -1,4 +1,4 @@
-package core.book.domain;
+package core.book.domain.exception;
 
 import common.SystemException;
 

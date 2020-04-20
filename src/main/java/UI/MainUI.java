@@ -3,7 +3,7 @@ package UI;
 import application.BookController;
 import application.CashController;
 import application.UserController;
-import core.book.application.BookRentLedger;
+import core.book.application.BookLedger;
 import core.book.application.Library;
 import core.book.application.DefaultTrader;
 import core.book.domain.Trader;
@@ -26,7 +26,7 @@ public class MainUI {
 
 
     //application
-    BookRentLedger bookRentLedger;
+    BookLedger bookLedger;
     Library library;
     CashLedger cashLedger;
     UserManager userManager;
@@ -56,14 +56,13 @@ public class MainUI {
 
     }
     private void setUp() {
-        bookLedgerRepository = new BookLedgerRepository();
 
-        bookRentLedger = new BookRentLedger(bookLedgerRepository);
+        bookLedger = new BookLedger(bookLedgerRepository);
         library = new Library(bookRepository);
         cashLedger = new CashLedger(cashRepository);
-        bookRentLedger = new BookRentLedger(bookLedgerRepository);
+        bookLedger = new BookLedger(bookLedgerRepository);
         userManager = new UserManager(userRepository);
-        trader = new DefaultTrader(cashLedger,bookRentLedger, library);
+        trader = new DefaultTrader(cashLedger, bookLedger, library);
         userManager = new UserManager(userRepository);
 
 

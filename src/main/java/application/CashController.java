@@ -13,8 +13,4 @@ public class CashController {
         this.userManager = userManager;
     }
 
-    public int getUserMoney(String userName) {
-        User user = userManager.getUserByName(userName);
-        return cashLedger.getUserMoney(user);
-    }
 }

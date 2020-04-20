@@ -8,9 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.assertj.core.api.Assertions.assertThat;;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
 
 class CashControllerTest {
     CashController cashController;
@@ -31,7 +29,6 @@ class CashControllerTest {
         User user = new User(1,userName);
         given(cashLedger.getUserMoney(user)).willReturn(1000);
         given(userManager.getUserByName(userName)).willReturn(user);
-        assertThat(cashController.getUserMoney(userName)).isEqualTo(1000);
     }
 
 }

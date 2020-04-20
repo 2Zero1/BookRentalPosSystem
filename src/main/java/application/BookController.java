@@ -2,7 +2,7 @@ package application;
 
 import core.book.application.Library;
 import core.book.domain.Book;
-import core.book.domain.BookEntityException;
+import core.book.domain.exception.BookEntityException;
 import core.book.domain.Trader;
 import core.user.domain.User;
 

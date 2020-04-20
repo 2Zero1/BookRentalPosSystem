@@ -1,4 +1,4 @@
-package core.cash.domain;
+package core.cash.domain.exception;
 
 import common.SystemException;
 
